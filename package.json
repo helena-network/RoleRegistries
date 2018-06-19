@@ -1,24 +1,28 @@
 {
-  "name": "@frontier-token-research/RoleRegistries",
+  "name": "@frontier-token-research/role-registries",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Solidity package to Manage role permissions.",
   "main": "truffle-config.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "start": "ganache-cli -p 8545",
+    "compile": "truffle compile",
     "test": "truffle test",
+    "migrate": "truffle migrate",
     "coverage": "./node_modules/.bin/solidity-coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "openzeppelin-solidity": "1.10.0"
+    "openzeppelin-solidity": "1.10.0",
+    "truffle": "^4.1.11"
   },
   "devDependencies": {
     "cz-conventional-changelog": "^2.1.0",
+    "eth-gas-reporter": "^0.1.7",
     "solidity-coverage": "^0.5.4"
   },
   "config": {
