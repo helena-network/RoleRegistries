@@ -1,5 +1,7 @@
 # Role Registries
 
+[![Build Status](https://travis-ci.com/Frontier-project/RoleRegistries.svg?token=DJeMzxJJncp3nRaEUuxH&branch=master)](https://travis-ci.com/Frontier-project/RoleRegistries)
+
 ## About
 
 A Solidity package to Manage role permissions.
