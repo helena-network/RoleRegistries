@@ -1,0 +1,18 @@
+{
+  "package_name": "RoleRegistry",
+  "version": "1.0.0",
+  "description": "Library to manage Application roles and Auth using Smart Contract Registries",
+  "authors": [
+    "Frontier Token Research"
+  ],
+  "keywords": [
+    "consensys",
+    "Frontier",
+    "Registries",
+    "tcr"
+  ],
+  "dependencies": {
+    "zeppelin": "1.3.0"
+  },
+  "license": "Apache 2.0"
+}
