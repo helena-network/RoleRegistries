@@ -1,0 +1,32 @@
+language: javascript
+
+
+stages:
+  - Test
+  - Release
+
+jobs:
+  include:
+    - stage: Test
+      language: node_js
+      node_js:
+        - "8"
+      install:
+        - npm install
+      before_script:
+        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+        - npm install -g ganache-cli
+        - npm run start &
+      script:
+        - truffle test
+      after_script:
+        - npm run coverage && cat coverage/lcov.info | coveralls
+
+    - stage: Release
+      provider: script
+      node_js: "8"
+      before_install:
+        - npm install -g npx
+        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+      script:
+        - npx semantic-release
