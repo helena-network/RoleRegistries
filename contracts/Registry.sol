@@ -11,7 +11,7 @@ contract Registry {
 
     event _WhiteList(address _whiteListedAccount); 
     event _Remove(address _removedAccount);
-    event _Application(bytes32 indexed listingHash, uint deposit, uint appEndDate, string data, address indexed applicant);
+    event _Application(bytes32 indexed listingHash, uint deposit, string data, address indexed applicant);
 
     /**
     * @dev Adds a new account to the registry
@@ -41,6 +41,6 @@ contract Registry {
     *  @param _data Used for external information related with the application (e.g IPFS hash)
     */
 
-    function apply(uint _amount, string _data) external;
+     function apply(bytes32 _id, uint _amount, string _data) external;
     
 }

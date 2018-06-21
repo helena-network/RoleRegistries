@@ -58,10 +58,9 @@ contract OwnedRegistry is Registry, Ownable{
     */
 
     function apply(bytes32 _id, uint _amount, string _data) external{
-        require(_id == keccak256(msg.sender, amount, data));
-        require(token.transferFrom(msg.sender, address(this), _amount));
+        require(_id == keccak256(msg.sender, _amount, _data));
         applications[_id] = Application(_amount, _data, false);
-        emit Application(_id, _amount, _data, msg.sender);
+        emit _Application(_id, _amount, _data, msg.sender);
     }
 
    
