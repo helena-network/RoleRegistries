@@ -16,9 +16,9 @@ contract OwnedRegistryFactory{
     * @param _maxNumListings Maximum number of listings for the created registry
     */
 
-    function newRegistry(uint256 _maxNumListings, bytes32 _label) public returns (OwnedRegistry _reg){
+    function newRegistry(bytes32 _label) public returns (OwnedRegistry _reg){
         require(registries[_label] == 0x00);
-        OwnedRegistry reg = new OwnedRegistry(_maxNumListings);
+        OwnedRegistry reg = new OwnedRegistry();
         emit OwnedRegistryCreation(msg.sender);
         reg.transferOwnership(msg.sender);
         registries[_label] = address(reg);
