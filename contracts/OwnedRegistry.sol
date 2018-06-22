@@ -14,6 +14,15 @@ contract OwnedRegistry is Registry, Ownable{
     using SafeMath for uint256;
 
     mapping(address => bool) whiteListed;
+
+    struct Application {
+        uint256 stakedAmount;
+        string data;
+        bool approved;
+    }
+
+    mapping(bytes32 => Application) applications;
+
     uint256 public listingCounter;
 
     /**
@@ -26,7 +35,7 @@ contract OwnedRegistry is Registry, Ownable{
         require(!isWhitelisted(_accountToWhiteList));
         whiteListed[_accountToWhiteList] = true;
         listingCounter = listingCounter.add(1);
-        emit WhiteList(_accountToWhiteList);
+        emit _WhiteList(_accountToWhiteList);
     }
 
     /**
@@ -38,7 +47,20 @@ contract OwnedRegistry is Registry, Ownable{
         require(msg.sender == owner);
         whiteListed[_accountToRemove] = false;
         listingCounter = listingCounter.sub(1);
-        emit Remove(_accountToRemove);
+        emit _Remove(_accountToRemove);
+    }
+
+    /**
+    *  @dev Creates an application to be included in the registry
+    *  @param _id Inherited from Registry interface, in this case, required to be the same as msg.sender
+    *  @param _amount Inherited from Registry interface, not required (set to 0)
+    *  @param _data Used for external information related with the application (e.g IPFS hash)
+    */
+
+    function apply(bytes32 _id, uint _amount, string _data) external{
+        require(_id == keccak256(msg.sender, _amount, _data));
+        applications[_id] = Application(_amount, _data, false);
+        emit _Application(_id, _amount, _data, msg.sender);
     }
 
    
