@@ -13,7 +13,7 @@ contract OwnedRegistryFactory{
 
     /**
     * Creates a new Owned Registry
-    * @param _maxNumListings Maximum number of listings for the created registry
+    * @param _label a bytes32 label to identify the new created registry
     */
 
     function newRegistry(bytes32 _label) public returns (OwnedRegistry _reg){
