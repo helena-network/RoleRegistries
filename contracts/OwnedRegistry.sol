@@ -10,7 +10,7 @@ import "./Registry.sol";
 *
 **/
 
-contract OwnedRegistry is Registry, Ownable{
+contract OwnedRegistry is Registry, Ownable {
     using SafeMath for uint256;
 
     mapping(address => bool) whiteListed;
@@ -21,7 +21,7 @@ contract OwnedRegistry is Registry, Ownable{
         bool approved;
     }
 
-    mapping(bytes32 => Application) applications;
+    mapping(bytes32 => Application) public applications;
 
     uint256 public listingCounter;
 
@@ -58,7 +58,6 @@ contract OwnedRegistry is Registry, Ownable{
     */
 
     function apply(bytes32 _id, uint _amount, string _data) external{
-        require(_id == keccak256(msg.sender, _amount, _data));
         applications[_id] = Application(_amount, _data, false);
         emit _Application(_id, _amount, _data, msg.sender);
     }
@@ -70,8 +69,39 @@ contract OwnedRegistry is Registry, Ownable{
     *  @return whitelisted boolean specifying if the listing is valid
     */
 
-    function isWhitelisted(address _accountChecked) view public returns (bool whitelisted){
+    function isWhitelisted(address _accountChecked) view public returns (bool whitelisted) {
         return whiteListed[_accountChecked];
+    }
+
+    /**
+    *  @dev Returns data associated with an application
+    *  @param  _accountChecked address being checked
+    *  @return data string (link to the data)
+    */
+
+    function applicationData(bytes32 _accountChecked) view public returns (string data) {
+        return applications[_accountChecked].data;
+    }
+
+
+    /**
+    *  @dev Returns true when an application has been approved
+    *  @param  _accountChecked address being checked
+    *  @return approved if the app was already approved
+    */
+
+    function applicationIsApproved(bytes32 _accountChecked) view public returns (bool approved) {
+        return applications[_accountChecked].approved;
+    }
+
+    /**
+    *  @dev Returns the amount associated with an application
+    *  @param  _accountChecked address being checked
+    *  @return amount, specifying the amount that was staked
+    */
+
+    function applicationAmount(bytes32 _accountChecked) view public returns (uint256 amount) {
+        return applications[_accountChecked].stakedAmount;
     }
 
 }

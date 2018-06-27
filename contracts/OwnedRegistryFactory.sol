@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 import "./OwnedRegistry.sol";
 
 /**
-* Factory to deplooy Owned Registries
+* Factory to deploy Owned Registries
 **/
 
 contract OwnedRegistryFactory{
