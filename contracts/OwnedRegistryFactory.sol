@@ -3,8 +3,7 @@ pragma solidity ^0.4.24;
 import "./OwnedRegistry.sol";
 
 /**
-* Generic Registry, used for Candidates and Voters
-*
+* Factory to deploy Owned Registries
 **/
 
 contract OwnedRegistryFactory{
