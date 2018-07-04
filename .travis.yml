@@ -20,10 +20,9 @@ jobs:
         - npm run start &
       script:
         - truffle test
-      after_script:
-        - npm run coverage 
-        - mv coverage/lcov.info coverage/lcov.txt
-        - cat coverage/lcov.txt | coveralls
+        - npm run coverage
+      after_script: 
+        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
     - stage: Release
       provider: script
