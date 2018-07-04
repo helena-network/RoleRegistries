@@ -13,6 +13,7 @@ jobs:
         - "8"
       install:
         - npm install
+        - npm install -E openzeppelin-solidity
       before_script:
         - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
         - npm install -g ganache-cli
