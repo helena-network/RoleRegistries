@@ -1,34 +1,16 @@
-language: javascript
+language: node_js
 
-
-stages:
-  - Test
-  - Release
-
-jobs:
-  include:
-    - stage: Test
-      language: node_js
-      node_js:
-        - "8"
-      install:
-        - npm install
-        - npm install -E openzeppelin-solidity
-      before_script:
-        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
-        - npm install -g ganache-cli
-        - npm run start &
-      script:
-        - truffle test
-        - npm run coverage
-      after_script: 
-        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-
-    - stage: Release
-      provider: script
-      node_js: "8"
-      before_install:
-        - npm install -g npx
-        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
-      script:
-        - npx semantic-release
+install:
+  - npm install
+  - npm install -E openzeppelin-solidity
+before_script:
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+  - npm install -g ganache-cli
+  - npm install -g npx
+  - npm run start &
+script:
+  - truffle test
+  - npm run coverage
+after_script: 
+  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - npx semantic-release
