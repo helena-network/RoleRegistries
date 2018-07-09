@@ -1,23 +1,35 @@
-language: node_js
+language: javascript
 
-before_install:
-  - npm install -g codecov
 
-install:
-  - npm install
-  - npm install -E openzeppelin-solidity
+stages:
+  - Test
+  - Release
 
-before_script:
-  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
-  - npm install -g ganache-cli
-  - npm install -g npx
-  - npm run start &
+jobs:
+  include:
+    - stage: Test
+      language: node_js
+      node_js:
+        - "8"
+      install:
+        - npm install
+        - npm install -g codecov
+        - npm install -E openzeppelin-solidity
+      before_script:
+        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+        - npm install -g ganache-cli
+        - npm run start &
+      script:
+        - truffle test
+        - npm run coverage
+      after_script: 
+        - codecov
 
-script:
-  - truffle test
-  - travis_wait 60 npm run coverage
-  - codecov
-  
-after_script: 
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-  - npx semantic-release
+    - stage: Release
+      provider: script
+      node_js: "8"
+      before_install:
+        - npm install -g npx
+        - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+      script:
+        - npx semantic-release
