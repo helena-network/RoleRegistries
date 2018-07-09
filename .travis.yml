@@ -1,16 +1,23 @@
 language: node_js
 
+before_install:
+  - npm install -g codecov
+
 install:
   - npm install
   - npm install -E openzeppelin-solidity
+
 before_script:
   - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
   - npm install -g ganache-cli
   - npm install -g npx
   - npm run start &
+
 script:
   - truffle test
-  - npm run coverage
+  - travis_wait 60 npm run coverage
+  - codecov
+  
 after_script: 
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
   - npx semantic-release
