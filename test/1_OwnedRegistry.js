@@ -60,4 +60,21 @@ contract('OwnedRegistry', function (accounts) {
       assert.equal(initialNumberOfListings.toNumber(), updatedNumberOfListings.toNumber())
     })
   })
+  describe('Adding an application', async () => {
+    it('Should add an application', async () => {
+      const data = 'Application';
+      const bytesID = '0x01';
+      await Registry.apply(bytesID, 0, data)
+      const returnData = await Registry.applicationData.call('0x01')
+      assert.strictEqual(data, returnData)
+    })
+    it('Should initialize an application as not approved', async () => {
+      const data = 'Application';
+      const bytesID = '0x01';
+      await Registry.apply(bytesID, 0, data)
+      const approved = await Registry.applicationIsApproved.call('0x01')
+      assert.strictEqual(false, approved)
+    })
+  })
+  
 })
