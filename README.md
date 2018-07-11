@@ -1,6 +1,7 @@
 # Role Registries
 
 [![Build Status](https://travis-ci.com/Frontier-project/RoleRegistries.svg?token=DJeMzxJJncp3nRaEUuxH&branch=master)](https://travis-ci.com/Frontier-project/RoleRegistries)
+[![codecov](https://codecov.io/gh/Frontier-project/RoleRegistries/branch/master/graph/badge.svg?token=PesH6oJLTj)](https://codecov.io/gh/Frontier-project/RoleRegistries)
 
 ## About
 
