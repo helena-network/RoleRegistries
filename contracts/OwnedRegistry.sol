@@ -13,7 +13,11 @@ import "./Registry.sol";
 contract OwnedRegistry is Registry, Ownable {
     using SafeMath for uint256;
 
+    event _MaxListingsEdited(uint256 _number); 
+
     mapping(address => bool) whiteListed;
+    uint256 public listingCounter;
+    uint256 public maxNumListings = 2 ** 256 - 1; // By default, only limited by EVM max word
 
     struct Application {
         uint256 stakedAmount;
@@ -23,7 +27,6 @@ contract OwnedRegistry is Registry, Ownable {
 
     mapping(bytes32 => Application) public applications;
 
-    uint256 public listingCounter;
 
     /**
     * @dev Adds a new account to the registry
@@ -31,8 +34,9 @@ contract OwnedRegistry is Registry, Ownable {
     **/
 
     function whiteList(address _accountToWhiteList) public {
-        require(msg.sender==owner);
+        require(msg.sender == owner);
         require(!isWhitelisted(_accountToWhiteList));
+        require(listingCounter < maxNumListings);
         whiteListed[_accountToWhiteList] = true;
         listingCounter = listingCounter.add(1);
         emit _WhiteList(_accountToWhiteList);
@@ -57,9 +61,21 @@ contract OwnedRegistry is Registry, Ownable {
     *  @param _data Used for external information related with the application (e.g IPFS hash)
     */
 
-    function apply(bytes32 _id, uint _amount, string _data) external{
+    function apply(bytes32 _id, uint256 _amount, string _data) external {
         applications[_id] = Application(_amount, _data, false);
         emit _Application(_id, _amount, _data, msg.sender);
+    }
+
+    /**
+    *  @dev Sets the maximum number of listings to be included in a registry
+    *  @param _maxNumListings Maximum number of listings to be set in the registry
+    */
+
+    function setMaxNumListings(uint256 _maxNumListings) external {
+        require(msg.sender == owner);
+        require(_maxNumListings >= listingCounter);
+        maxNumListings = _maxNumListings;
+        emit _MaxListingsEdited(_maxNumListings);
     }
 
    
