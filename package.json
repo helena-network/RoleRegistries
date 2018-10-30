@@ -19,7 +19,8 @@
   "dependencies": {
     "openzeppelin-solidity": "2.0.0",
     "truffle": "^4.1.11",
-    "truffle-hdwallet-provider": "0.0.5"
+    "truffle-hdwallet-provider": "0.0.5",
+    "semantic-release": "^15.9.16"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",
