@@ -17,10 +17,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "openzeppelin-solidity": "2.0.0",
+    "openzeppelin-eth": "2.0.2",
+    "openzeppelin-solidity": "^2.0.0",
+    "semantic-release": "^15.9.16",
     "truffle": "^4.1.11",
     "truffle-hdwallet-provider": "0.0.5",
-    "semantic-release": "^15.9.16"
+    "zos-lib": "^2.0.1"
   },
   "devDependencies": {
     "coveralls": "^3.0.2",

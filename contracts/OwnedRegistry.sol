@@ -1,7 +1,9 @@
 pragma solidity 0.4.24;
 
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-eth/contracts/math/SafeMath.sol";
+import "openzeppelin-eth/contracts/ownership/Ownable.sol";
+import "zos-lib/contracts/Initializable.sol";
+
 import "./Registry.sol";
 
 
@@ -10,7 +12,7 @@ import "./Registry.sol";
 *
 **/
 
-contract OwnedRegistry is Registry, Ownable {
+contract OwnedRegistry is Initializable, Registry, Ownable {
     using SafeMath for uint256;
 
     event _MaxListingsEdited(uint256 _number); 
@@ -26,7 +28,6 @@ contract OwnedRegistry is Registry, Ownable {
     }
 
     mapping(bytes32 => Application) public applications;
-
 
     /**
     * @dev Adds a new account to the registry

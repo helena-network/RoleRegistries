@@ -41,6 +41,6 @@ contract Registry {
     *  @param _data Used for external information related with the application (e.g IPFS hash)
     */
 
-     function apply(bytes32 _id, uint _amount, string _data) external;
+    function apply(bytes32 _id, uint _amount, string _data) external;
     
 }
