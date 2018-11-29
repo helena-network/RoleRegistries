@@ -14,19 +14,10 @@ contract OwnedRegistry is Registry, Ownable {
     using SafeMath for uint256;
 
     event _MaxListingsEdited(uint256 _number); 
-
-    mapping(address => bool) whiteListed;
     uint256 public listingCounter;
     uint256 public maxNumListings = 2 ** 256 - 1; // By default, only limited by EVM max word
 
-    struct Application {
-        uint256 stakedAmount;
-        string data;
-        bool approved;
-    }
-
-    mapping(bytes32 => Application) public applications;
-
+    // New functions to abstract storage access
 
     /**
     * @dev Adds a new account to the registry
@@ -37,8 +28,7 @@ contract OwnedRegistry is Registry, Ownable {
         require(msg.sender == owner);
         require(!isWhitelisted(_accountToWhiteList));
         require(listingCounter < maxNumListings);
-        whiteListed[_accountToWhiteList] = true;
-        listingCounter = listingCounter.add(1);
+        _whiteListAddress(_accountToWhiteList);
         emit _WhiteList(_accountToWhiteList);
     }
 
@@ -49,21 +39,8 @@ contract OwnedRegistry is Registry, Ownable {
 
     function remove(address _accountToRemove) public {
         require(msg.sender == owner);
-        whiteListed[_accountToRemove] = false;
-        listingCounter = listingCounter.sub(1);
+        _blackListAddress(_accountToRemove);
         emit _Remove(_accountToRemove);
-    }
-
-    /**
-    *  @dev Creates an application to be included in the registry
-    *  @param _id Inherited from Registry interface, in this case, required to be the same as msg.sender
-    *  @param _amount Inherited from Registry interface, not required (set to 0)
-    *  @param _data Used for external information related with the application (e.g IPFS hash)
-    */
-
-    function apply(bytes32 _id, uint256 _amount, string _data) external {
-        applications[_id] = Application(_amount, _data, false);
-        emit _Application(_id, _amount, _data, msg.sender);
     }
 
     /**
@@ -86,38 +63,10 @@ contract OwnedRegistry is Registry, Ownable {
     */
 
     function isWhitelisted(address _accountChecked) view public returns (bool whitelisted) {
-        return whiteListed[_accountChecked];
+       whitelisted = _getAccountFromWhiteListed(_accountChecked);
+       return whitelisted;
     }
 
-    /**
-    *  @dev Returns data associated with an application
-    *  @param  _accountChecked address being checked
-    *  @return data string (link to the data)
-    */
-
-    function applicationData(bytes32 _accountChecked) view public returns (string data) {
-        return applications[_accountChecked].data;
-    }
-
-
-    /**
-    *  @dev Returns true when an application has been approved
-    *  @param  _accountChecked address being checked
-    *  @return approved if the app was already approved
-    */
-
-    function applicationIsApproved(bytes32 _accountChecked) view public returns (bool approved) {
-        return applications[_accountChecked].approved;
-    }
-
-    /**
-    *  @dev Returns the amount associated with an application
-    *  @param  _accountChecked address being checked
-    *  @return amount, specifying the amount that was staked
-    */
-
-    function applicationAmount(bytes32 _accountChecked) view public returns (uint256 amount) {
-        return applications[_accountChecked].stakedAmount;
-    }
+    
 
 }

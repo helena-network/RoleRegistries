@@ -1,12 +1,13 @@
 pragma solidity 0.4.24;
 
+import "./GlobalStorage.sol";
 
 /**
 * Generic Registry Interface, used in Frontier for Candidates and Voters
 * Potentially enabling Any king of registry (Centralized or decentralized, like TCR)
 **/
 
-contract Registry {
+contract Registry is GlobalStorage {
 
 
     event _WhiteList(address _whiteListedAccount); 
@@ -41,6 +42,6 @@ contract Registry {
     *  @param _data Used for external information related with the application (e.g IPFS hash)
     */
 
-     function apply(bytes32 _id, uint _amount, string _data) external;
+     // function apply(bytes32 _id, uint _amount, string _data) external;
     
 }
