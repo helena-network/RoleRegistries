@@ -16,21 +16,21 @@ contract GlobalStorage {
     uint256 public counter;
 
     struct AddressRegistryStorage {
-        address[10] whiteListed;
+        address[5] whiteListed;
         uint256 listingCounter;
         uint256 maxNumListings; // By default, only limited by EVM max word
     }
 
    function init() public{
-        address[10] memory b;
+        address[5] memory b;
         b[0] = address(this);
-        AddressRegistryStorage memory a = AddressRegistryStorage(b,0,30);
+        AddressRegistryStorage memory a = AddressRegistryStorage(b,0,5);
         strg[0] = a;
         strg[1] = a;
     }
 
 
-    function _deleteAddress(address _target, address[10] _list) internal pure returns (address[10]){
+    function _deleteAddress(address _target, address[5] _list) internal pure returns (address[5]){
         uint256 len = _list.length;
         uint256 targetIndex = _findInArray(_target, _list);
         require(targetIndex<9, "Address does not exist");
@@ -39,7 +39,7 @@ contract GlobalStorage {
         return _list;
     }
 
-    function _findInArray(address _target, address[10] _list) internal pure returns (uint256){
+    function _findInArray(address _target, address[5] _list) internal pure returns (uint256){
         uint256 len = _list.length;
         
         for(uint i = 0; i<len; i++){
@@ -59,7 +59,7 @@ contract GlobalStorage {
         AddressRegistryStorage memory currentState = getNext();
         uint256 targetIndex = _findInArray(_accountToWhiteList, currentState.whiteListed);
         require(targetIndex>9, "Address already whitelisted exist");
-        currentState.whiteListed[currentState.listingCounter+1] = _accountToWhiteList;
+        currentState.whiteListed[currentState.listingCounter] = _accountToWhiteList;
         currentState.listingCounter = currentState.listingCounter.add(1);
         set(currentState);
     }
@@ -102,11 +102,24 @@ contract GlobalStorage {
         return currentState.listingCounter;
     }
 
+    //TODO: should be internal, making it public to facilitate unit testing
+    function _getNextListingCounter() public view returns (uint256) {
+        AddressRegistryStorage memory currentState = getNext();
+        return currentState.listingCounter;
+    }
+
     function getCurrent() internal view returns (AddressRegistryStorage) {
         if (height() > lastSync){
             return strg[1];
         }
         return strg[0];
+    }
+
+    // this was updatable before, I removed it because didnt see a need for it
+    // to be updatable, but I might be wrong
+    function getNext() internal view returns (AddressRegistryStorage memory) {
+        AddressRegistryStorage memory temp = strg[1];
+        return temp;
     }
     
     function updateState() public {
@@ -127,10 +140,6 @@ contract GlobalStorage {
         strg[1] = _a;
     }
     
-    function getNext() internal updatable() returns (AddressRegistryStorage memory) {
-        AddressRegistryStorage memory temp = strg[1];
-        return temp;
-    }
 
 
     ///// Aux
@@ -145,15 +154,15 @@ contract GlobalStorage {
 
         // Debug
 
-    function debug_get0() public view returns (uint, address[10]){
+    function debug_get0() public view returns (uint, address[5]){
         return (strg[0].listingCounter, strg[0].whiteListed);
     }
     
-    function debug_get1() public view returns (uint, address[10]){
+    function debug_get1() public view returns (uint, address[5]){
         return (strg[1].listingCounter, strg[1].whiteListed);
     }
     
-    function debug_getCurrent() public view returns (uint, address[10]) {
+    function debug_getCurrent() public view returns (uint, address[5]) {
         if (height() > lastSync){
             return (strg[1].listingCounter, strg[1].whiteListed);
         }
