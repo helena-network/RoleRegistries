@@ -14,49 +14,51 @@ contract('OwnedRegistry', function (accounts) {
   beforeEach(async () => {
     Registry = await OwnedRegistryContract.new(5, {from: ADMIN_ACCOUNT})
     await Registry.init()
-    //await Registry.next()
+    // await Registry.next()
   })
   describe('Whitelisting accounts', async () => {
     it('Should whiteList an account if it is required by the owner', async () => {
       await Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT})
-	  console.log("STATE: "+ JSON.stringify(await Registry._debug()))
-	   await Registry.next()
-       let isWhitelisted = await Registry.isWhitelisted.call(TEST_ACCOUNT_1)
-       assert.strictEqual(true, isWhitelisted)
+
+      await Registry.next()
+      let isWhitelisted = await Registry.isWhitelisted.call(TEST_ACCOUNT_1)
+      assert.strictEqual(true, isWhitelisted)
     })
   })
-  //   it('Should NOT whitelist an account if it is required by an account different than the owner', async () => {
-  //     await assertRevert(Registry.whiteList(TEST_ACCOUNT_1, {from: NOT_ADMIN_ACCOUNT}))
-  //   })
-  //   it('Should increase the registry index after whitelisting an account ', async () => {
-  //     let initialIndex = await Registry.listingCounter.call()
-  //     await Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT})
-  //     let updatedNumberOfListings = await Registry.listingCounter.call()
-  //     assert.equal(initialIndex.toNumber() + 1, updatedNumberOfListings.toNumber())
-  //   })
-  //   it('Should increase the listing Counter counter N times before the MAX is reached', async () => {
-  //     let initialNumberOfListings = await Registry.listingCounter.call()
-  //     let i = 0
-  //     while (i < MAXNUMCANDIDATES) {
-  //       await Registry.whiteList(TEST_ACCOUNT_1 + i, {from: ADMIN_ACCOUNT})
-  //       i++
-  //     }
-  //     let updatedNumberOfListings = await Registry.listingCounter.call()
-  //     assert.equal(initialNumberOfListings.toNumber() + MAXNUMCANDIDATES, updatedNumberOfListings.toNumber())
-  //   })
-  //   it('Should throw if the candidate is added twice', async () => {
-  //     await Registry.whiteList(TEST_ACCOUNT_1)
-  //     await assertRevert(Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT}))
-  //   })
+  it('Should NOT whitelist an account if it is required by an account different than the owner', async () => {
+    await assertRevert(Registry.whiteList(TEST_ACCOUNT_1, {from: NOT_ADMIN_ACCOUNT}))
+  })
+  it('Should increase the registry index after whitelisting an account ', async () => {
+    let initialIndex = await Registry.listingCounter()
+    await Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT})
+    await Registry.next()
+    let updatedNumberOfListings = await Registry.listingCounter()
+    assert.equal(updatedNumberOfListings.toNumber(), initialIndex.toNumber() + 1)
+  })
+  it('Should increase the listing Counter counter N times before the MAX is reached', async () => {
+    let initialNumberOfListings = await Registry.listingCounter()
+    let i = 0
+    while (i < MAXNUMCANDIDATES) {
+      await Registry.whiteList(TEST_ACCOUNT_1 + i, {from: ADMIN_ACCOUNT})
+      i++
+    }
+    await Registry.next()
+    let updatedNumberOfListings = await Registry.listingCounter()
+    assert.equal(updatedNumberOfListings.toNumber(), initialNumberOfListings.toNumber() + MAXNUMCANDIDATES)
+  })
+  it('Should throw if the candidate is added twice', async () => {
+    await Registry.whiteList(TEST_ACCOUNT_1)
+    await assertRevert(Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT}))
+  })
   //   it('Should throw if a candidate is added and the list is full', async () => {
   //     await Registry.setMaxNumListings(MAXNUMCANDIDATES)
-  //     let initialNumberOfListings = await Registry.listingCounter.call()
+  //     let initialNumberOfListings = await Registry.listingCounter()
   //     let i = 0
   //     while (i < MAXNUMCANDIDATES) {
   //       await Registry.whiteList(TEST_ACCOUNT_1 + i, {from: ADMIN_ACCOUNT})
   //       i++
   //     }
-  //     let updatedNumberOfListings = await Registry.listingCounter.call()
+  //     let updatedNumberOfListings = await Registry.listingCounter()
   //     await assertRevert(Registry.whiteList(TEST_ACCOUNT_1 + MAXNUMCANDIDATES + 1))
   //   })
   // })
@@ -77,7 +79,7 @@ contract('OwnedRegistry', function (accounts) {
   //       await Registry.whiteList(TEST_ACCOUNT_1 + i, {from: ADMIN_ACCOUNT})
   //       i++
   //     }
-  //     const updatedNumberOfListings = await Registry.listingCounter.call()
+  //     const updatedNumberOfListings = await Registry.listingCounter()
   //     assert.strictEqual(MAXNUMCANDIDATES, updatedNumberOfListings.toNumber())
   //     await Registry.setMaxNumListings(MAXNUMCANDIDATES)
   //     const newMaxNumListings = await Registry.maxNumListings.call()
@@ -96,10 +98,10 @@ contract('OwnedRegistry', function (accounts) {
   //     await assertRevert(Registry.remove(TEST_ACCOUNT_1, {from: NOT_ADMIN_ACCOUNT}))
   //   })
   //   it('Should decrease the listing counter after removing a listing ', async () => {
-  //     let initialNumberOfListings = await Registry.listingCounter.call()
+  //     let initialNumberOfListings = await Registry.listingCounter()
   //     await Registry.whiteList(TEST_ACCOUNT_1)
   //     await Registry.remove(TEST_ACCOUNT_1)
-  //     let updatedNumberOfListings = await Registry.listingCounter.call()
+  //     let updatedNumberOfListings = await Registry.listingCounter()
   //     assert.equal(initialNumberOfListings.toNumber(), updatedNumberOfListings.toNumber())
   //   })
   // })

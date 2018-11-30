@@ -14,7 +14,7 @@ contract OwnedRegistry is Registry, Ownable {
     using SafeMath for uint256;
 
     event _MaxListingsEdited(uint256 _number); 
-    uint256 public listingCounter;
+    //uint256 public _getListingCounter();
     uint256 public maxNumListings = 2 ** 256 - 1; // By default, only limited by EVM max word
 
     // New functions to abstract storage access
@@ -27,7 +27,7 @@ contract OwnedRegistry is Registry, Ownable {
     function whiteList(address _accountToWhiteList) public {
         require(msg.sender == owner);
         require(!isWhitelisted(_accountToWhiteList));
-        require(listingCounter < maxNumListings);
+        require(_getListingCounter() < maxNumListings);
         _whiteListAddress(_accountToWhiteList);
         emit _WhiteList(_accountToWhiteList);
     }
@@ -50,7 +50,7 @@ contract OwnedRegistry is Registry, Ownable {
 
     function setMaxNumListings(uint256 _maxNumListings) external {
         require(msg.sender == owner);
-        require(_maxNumListings >= listingCounter);
+        require(_maxNumListings >= _getListingCounter());
         maxNumListings = _maxNumListings;
         emit _MaxListingsEdited(_maxNumListings);
     }
@@ -65,6 +65,11 @@ contract OwnedRegistry is Registry, Ownable {
     function isWhitelisted(address _accountChecked) view public returns (bool whitelisted) {
        whitelisted = _getAccountFromWhiteListed(_accountChecked);
        return whitelisted;
+    }
+
+    function listingCounter() public view returns (uint256){
+        uint256 _counter = _getListingCounter();
+        return _counter;
     }
 
     
