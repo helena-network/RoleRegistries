@@ -1,6 +1,7 @@
 
 //import "github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "@frontier-token-research/trl-contracts-poc/contracts/TRLInterface.sol";
 
 pragma solidity 0.4.24;
 
@@ -9,11 +10,15 @@ contract GlobalStorage {
     // old/new slots    //epoch    //storage
     //mapping(uint32 => mapping (uint256 => AddressRegistryStorage)) strg;
 
-    AddressRegistryStorage[2] strg;
+    AddressRegistryStorage[5] strg;
 
 
     uint256 public lastSync;
-    uint256 public counter;
+    //uint256 public counter;
+    uint256 public hardMaxNumListingsLimit;
+    bool public isInit = false;
+
+    TRLInterface TRL;
 
     struct AddressRegistryStorage {
         address[5] whiteListed;
@@ -21,12 +26,19 @@ contract GlobalStorage {
         uint256 maxNumListings; // By default, only limited by EVM max word
     }
 
-   function init() public{
+    modifier onlyOnce() {
+        require(!isInit);
+        _;
+    }
+
+   function init(uint256 _hardMaxNumListingsLimit, uint256 _initMaxNumListings, address _trlAddress) public onlyOnce() {
+        require (_hardMaxNumListingsLimit <= strg.length, "The hardlimit is over the strg array size");
         address[5] memory b;
-        b[0] = address(this);
-        AddressRegistryStorage memory a = AddressRegistryStorage(b,0,5);
+        AddressRegistryStorage memory a = AddressRegistryStorage(b,0,_initMaxNumListings);
         strg[0] = a;
         strg[1] = a;
+        TRL = TRLInterface(_trlAddress);
+        isInit = true;
     }
 
 
@@ -145,28 +157,8 @@ contract GlobalStorage {
     ///// Aux
 
     function height() internal view returns (uint){
-        return counter;
-    }
-
-    function next() public {
-        counter ++;
-    }
-
-        // Debug
-
-    function debug_get0() public view returns (uint, address[5]){
-        return (strg[0].listingCounter, strg[0].whiteListed);
-    }
-    
-    function debug_get1() public view returns (uint, address[5]){
-        return (strg[1].listingCounter, strg[1].whiteListed);
-    }
-    
-    function debug_getCurrent() public view returns (uint, address[5]) {
-        if (height() > lastSync){
-            return (strg[1].listingCounter, strg[1].whiteListed);
-        }
-        return (strg[0].listingCounter, strg[0].whiteListed);
+        return TRL.height();
+        //return counter;
     }
 
 }

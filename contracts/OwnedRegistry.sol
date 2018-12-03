@@ -14,11 +14,7 @@ contract OwnedRegistry is Registry, Ownable {
     using SafeMath for uint256;
 
     event _MaxListingsEdited(uint256 _number); 
-    //uint256 public _getListingCounter();
-    //uint256 public maxNumListings = 2 ** 256 - 1; // By default, only limited by EVM max word
-
-    // New functions to abstract storage access
-
+    
     /**
     * @dev Adds a new account to the registry
     * @param _accountToWhiteList account to be added to the registry
