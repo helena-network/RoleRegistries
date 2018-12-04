@@ -1,5 +1,6 @@
 /* global artifacts contract beforeEach it assert web3 */
 const { assertRevert } = require('./helpers/assertRevert')
+// var _ = require('underscore')
 
 const OwnedRegistryContract = artifacts.require('OwnedRegistryMock')
 const MAXNUMCANDIDATES = 5
@@ -122,12 +123,10 @@ contract('OwnedRegistry', function (accounts) {
 
       await Registry.whiteList(TEST_ACCOUNT_1)
       await Registry.whiteList(TEST_ACCOUNT_2)
-
       // should still be zero, because we havent moved to the next period
       assert.equal(await Registry.listingCounter(), 0)
       // moving period
       await Registry.next()
-
       // Should be 2, because we've moved period and the counter should have been updated
       assert.equal(await Registry.listingCounter(), 2)
       // counter should continue droping as we remove more accounts
@@ -145,24 +144,29 @@ contract('OwnedRegistry', function (accounts) {
       await Registry.whiteList(TEST_ACCOUNT_2, {from: ADMIN_ACCOUNT})
       // Trying to whitelist an already existing account should fail
       await assertRevert(Registry.whiteList(TEST_ACCOUNT_2, {from: ADMIN_ACCOUNT}))
+
+      const expectedAccounts = [[TEST_ACCOUNT_1, TEST_ACCOUNT_2], [TEST_ACCOUNT_2], []]
+
+      const actualAccounts = []
+
+      actualAccounts[0] = cleanArray(await Registry.debug_getArchive(0))
+      actualAccounts[1] = cleanArray(await Registry.debug_getArchive(1))
+      actualAccounts[2] = cleanArray(await Registry.debug_getArchive(2))
+
+      assert.equal(JSON.stringify(actualAccounts[0]), JSON.stringify(expectedAccounts[0]))
+      assert.equal(JSON.stringify(actualAccounts[1]), JSON.stringify(expectedAccounts[1]))
+      assert.equal(JSON.stringify(actualAccounts[2]), JSON.stringify(expectedAccounts[2]))
     })
   })
-
-  // describe('Adding an application', async () => {
-  //   it('Should add an application', async () => {
-  //     const data = 'Application'
-  //     const bytesID = '0x01'
-  //     await Registry.apply(bytesID, 0, data)
-  //     const returnData = await Registry.applicationData.call('0x01')
-  //     assert.strictEqual(data, returnData)
-  //   })
-  //   it('Should initialize an application as not approved', async () => {
-  //     const data = 'Application'
-  //     const bytesID = '0x01'
-  //     await Registry.apply(bytesID, 0, data)
-  //     const approved = await Registry.applicationIsApproved.call('0x01')
-  //     assert.strictEqual(false, approved)
-  //   })
-  // })
-// })
 })
+
+function cleanArray (arr) {
+  let cleaned = []
+  for (let element of arr) {
+    if (element.indexOf('0x000000000') > -1) {
+      continue
+    }
+    cleaned.push(element)
+  }
+  return cleaned
+}

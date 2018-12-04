@@ -37,4 +37,13 @@ contract OwnedRegistryMock is OwnedRegistry {
         return (strg[0].listingCounter, strg[0].whiteListed);
     }
 
+    function debug_getArchive(uint256 _index) public view returns (address[5]){
+        return archive[_index].item.whiteListed;
+    }
+
+
+    function debug_getArchiveSize() public view returns (uint256){
+        return archive.length;
+    }
+
 }

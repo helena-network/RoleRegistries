@@ -10,13 +10,14 @@ contract GlobalStorage {
     // old/new slots    //epoch    //storage
     //mapping(uint32 => mapping (uint256 => AddressRegistryStorage)) strg;
 
-    AddressRegistryStorage[5] strg;
+    AddressRegistryStorage[2] strg;
+
+    Archive[] archive;
 
 
     uint256 public lastSync;
-    //uint256 public counter;
     uint256 public hardMaxNumListingsLimit;
-    bool public isInit = false;
+    bool    public isInit = false;
 
     TRLInterface TRL;
 
@@ -26,17 +27,23 @@ contract GlobalStorage {
         uint256 maxNumListings; // By default, only limited by EVM max word
     }
 
+    struct Archive{
+        uint256 epoch;
+        AddressRegistryStorage item;
+    }
+
     modifier onlyOnce() {
         require(!isInit);
         _;
     }
 
    function init(uint256 _hardMaxNumListingsLimit, uint256 _initMaxNumListings, address _trlAddress) public onlyOnce() {
-        require (_hardMaxNumListingsLimit <= strg.length, "The hardlimit is over the strg array size");
+        require(!isInit);
         address[5] memory b;
         AddressRegistryStorage memory a = AddressRegistryStorage(b,0,_initMaxNumListings);
         strg[0] = a;
         strg[1] = a;
+        //_addToArchive(0,a);
         TRL = TRLInterface(_trlAddress);
         isInit = true;
     }
@@ -90,9 +97,33 @@ contract GlobalStorage {
         set(currentState);
     }
 
+    
+
+    function _addToArchive(uint256 _epoch, AddressRegistryStorage _item) internal {
+        Archive memory newItem = Archive(_epoch, _item);
+        archive.push(newItem);
+    }
+
     /****************
     *     Getters 
     *****************/
+
+    function _findArchiveTarget(uint256 _epoch) internal view returns (uint256) {
+        uint256 archiveLength = archive.length;
+       
+       for(uint256 i = 0; i<archiveLength;i++){
+        if(archive[i].epoch == _epoch){
+            return i;
+        }
+       } 
+    }
+
+    function _getEpochFromArchive(uint256 _epoch) internal view returns (AddressRegistryStorage) {
+       require(_epoch < height(),"Can not get current epoch from archive");
+       uint256 targetIndex = _findArchiveTarget(_epoch);
+       AddressRegistryStorage memory target = archive[targetIndex].item;
+       return target;
+    }
 
     //TODO: should be internal, making it public to facilitate unit testing
     function _getAccountFromWhiteListed(address _accountChecked) internal view returns (bool) {
@@ -127,6 +158,13 @@ contract GlobalStorage {
         return strg[0];
     }
 
+    function getWhitelistedFromEpoch(uint256 _epoch) public view returns (address[5] elements) {
+        // require(elements.length == hardMaxNumListingsLimit);
+        // AddressRegistryStorage memory item = _getEpochFromArchive(_epoch);
+        return _getEpochFromArchive(_epoch).whiteListed;
+
+    }
+
     // this was updatable before, I removed it because didnt see a need for it
     // to be updatable, but I might be wrong
     function getNext() internal view returns (AddressRegistryStorage memory) {
@@ -134,28 +172,27 @@ contract GlobalStorage {
         return temp;
     }
     
-    function updateState() public {
+    function updateState(uint256 _height) public {
         AddressRegistryStorage memory next = strg[1];
         strg[0] = next;
-        lastSync = height();
+        lastSync = _height;
+        _addToArchive(_height, next);
     }
     
-    modifier updatable(){
-        if (height() > lastSync){
-            updateState();
+    modifier updatable() {
+        uint256 currHeight = height();
+        if (currHeight > lastSync) {
+            updateState(currHeight);
         }
         _;
     }
     
-    function set(AddressRegistryStorage memory _a) internal updatable(){
+    function set(AddressRegistryStorage memory _a) internal updatable() {
         // We will always set it in the next one 
         strg[1] = _a;
     }
     
-
-
     ///// Aux
-
     function height() internal view returns (uint){
         return TRL.height();
         //return counter;
