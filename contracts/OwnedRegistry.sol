@@ -64,6 +64,17 @@ contract OwnedRegistry is Registry, Ownable {
        return whitelisted;
     }
 
+    function wasWhitelisted(address _accountChecked, uint256 _epoch) public view returns (bool whitelisted){
+        address[5] memory addressListFromEpoch = _getEpochFromArchive(_epoch).whiteListed;
+        uint256 userIndex = _findInArray(_accountChecked, addressListFromEpoch);
+
+        if(userIndex == 101){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
     function listingCounter() public view returns (uint256){
         uint256 _counter = _getListingCounter();
         return _counter;
@@ -73,7 +84,4 @@ contract OwnedRegistry is Registry, Ownable {
         uint256 _maxNumListings = _getMaxNumListings();
         return _maxNumListings;
     }
-
-    
-
 }

@@ -2,6 +2,7 @@
 //import "github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "@frontier-token-research/trl-contracts-poc/contracts/TRLInterface.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 pragma solidity 0.4.24;
 
@@ -196,6 +197,46 @@ contract GlobalStorage {
     function height() internal view returns (uint){
         return TRL.height();
         //return counter;
+    }
+
+    /***********
+    Override functions
+    This set of functions exists to allow the addition/removal of users during the same period
+    ************/
+
+    function whitelistCurrentPeriod(address _accountToWhiteList) public updatable(){
+        uint256 current;
+        if (height() > lastSync){
+            current = 1;
+        }else{
+            current = 0;
+        }
+
+        // current state is outdated, so it's ok to just add to 1 because 1 will become 0
+        if(current == 1){
+            return;
+        }
+
+        // current state is 0, so we will need to update zero and 1
+        if(current == 0){
+            AddressRegistryStorage memory currentState = strg[0];
+            AddressRegistryStorage memory nextState = strg[1];
+
+            bool addTo0 = _findInArray(_accountToWhiteList, currentState.whiteListed) == 101;
+            bool addTo1 = _findInArray(_accountToWhiteList, nextState.whiteListed) == 101;
+
+            require(addTo0, "Address already whitelisted");
+
+            currentState.whiteListed[currentState.listingCounter] = _accountToWhiteList;
+            currentState.listingCounter = currentState.listingCounter.add(1);
+            strg[0] = currentState;
+
+            if(addTo1){
+                nextState.whiteListed[nextState.listingCounter] = _accountToWhiteList;
+                nextState.listingCounter = nextState.listingCounter.add(1);
+                strg[1] = nextState;                
+            }
+        }
     }
 
 }
