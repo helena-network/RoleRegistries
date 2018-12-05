@@ -174,10 +174,11 @@ contract GlobalStorage {
     }
     
     function updateState(uint256 _height) public {
+        AddressRegistryStorage memory curr = strg[0];
+        _addToArchive(_height-1, curr);
         AddressRegistryStorage memory next = strg[1];
         strg[0] = next;
         lastSync = _height;
-        _addToArchive(_height, next);
     }
     
     modifier updatable() {
@@ -203,6 +204,21 @@ contract GlobalStorage {
     Override functions
     This set of functions exists to allow the addition/removal of users during the same period
     ************/
+
+    // function currenPeriodUpdateState(uint256 _height) public {
+    //     AddressRegistryStorage memory next = strg[1];
+    //     strg[0] = next;
+    //     lastSync = _height;
+    //     _addToArchive(_height, next);
+    // }
+    
+    // modifier currenPeriodUpdatable() {
+    //     uint256 currHeight = height();
+    //     if (currHeight > lastSync) {
+    //         currenPeriodUpdateState(currHeight);
+    //     }
+    //     _;
+    // }
 
     function whitelistCurrentPeriod(address _accountToWhiteList) public updatable(){
         uint256 current;
@@ -239,4 +255,38 @@ contract GlobalStorage {
         }
     }
 
+    function blacklistCurrentPeriod(address _accountToBlacklist) public updatable(){
+        uint256 current;
+        if (height() > lastSync){
+            current = 1;
+        }else{
+            current = 0;
+        }
+
+        // current state is outdated, so it's ok to just add to 1 because 1 will become 0
+        if(current == 1){
+            return;
+        }
+
+        // current state is 0, so we will need to update zero and 1
+        if(current == 0){
+            AddressRegistryStorage memory currentState = strg[0];
+            AddressRegistryStorage memory nextState = strg[1];
+
+            bool removeFrom1 = _findInArray(_accountToBlacklist, currentState.whiteListed) < 101;
+            bool removeFrom2 = _findInArray(_accountToBlacklist, nextState.whiteListed) < 101;
+
+            require(removeFrom1, "Address is not whitelisted");
+
+            currentState.whiteListed = _deleteAddress(_accountToBlacklist, currentState.whiteListed);
+            currentState.listingCounter = currentState.listingCounter.sub(1);
+            strg[0] = currentState;
+
+            if(removeFrom2){
+                nextState.whiteListed = _deleteAddress(_accountToBlacklist, nextState.whiteListed);
+                nextState.listingCounter = nextState.listingCounter.sub(1);
+                strg[1] = nextState;                
+            }
+        }
+    }
 }

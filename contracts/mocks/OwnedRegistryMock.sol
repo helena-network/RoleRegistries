@@ -41,6 +41,11 @@ contract OwnedRegistryMock is OwnedRegistry {
         return _getEpochFromArchive(_index).whiteListed;
     }
 
+    function debug_getArchiveAndPeriod(uint256 _index) public view returns (uint256,address[5]){
+        Archive memory arch = archive[_index]; 
+        return (arch.epoch, arch.item.whiteListed);
+    }
+
 
     function debug_getArchiveSize() public view returns (uint256){
         return archive.length;
