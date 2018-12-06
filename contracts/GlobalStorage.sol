@@ -45,7 +45,7 @@ contract GlobalStorage {
         strg[0] = a;
         strg[1] = a;
         //_addToArchive(0,a);
-        TRL = TRLInterface(_trlAddress);
+        period = IPeriod(_periodAddress);
         isInit = true;
     }
 
