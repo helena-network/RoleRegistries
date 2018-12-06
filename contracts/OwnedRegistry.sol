@@ -21,7 +21,7 @@ contract OwnedRegistry is Registry, Ownable {
     **/
 
     function whiteList(address _accountToWhiteList) public {
-        require(msg.sender == owner);
+        require(msg.sender == owner());
         require(!isWhitelisted(_accountToWhiteList));
         require(_getNextListingCounter() < _getMaxNumListings());
         _whiteListAddress(_accountToWhiteList);
@@ -34,7 +34,7 @@ contract OwnedRegistry is Registry, Ownable {
     **/
 
     function remove(address _accountToRemove) public {
-        require(msg.sender == owner);
+        require(msg.sender == owner());
         _blackListAddress(_accountToRemove);
         emit _Remove(_accountToRemove);
     }
@@ -45,7 +45,7 @@ contract OwnedRegistry is Registry, Ownable {
     */
 
     function setMaxNumListings(uint256 _maxNumListings) external {
-        require(msg.sender == owner);
+        require(msg.sender == owner());
         require(_maxNumListings >= _getListingCounter());
         //maxNumListings = _maxNumListings;
         _setMaxNumListings(_maxNumListings);
