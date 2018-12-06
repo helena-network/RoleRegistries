@@ -38,7 +38,7 @@ contract GlobalStorage {
         _;
     }
 
-   function init(uint256 _hardMaxNumListingsLimit, uint256 _initMaxNumListings, address _trlAddress) public onlyOnce() {
+   function init(uint256 _hardMaxNumListingsLimit, uint256 _initMaxNumListings, address _periodAddress) public onlyOnce() {
         require(!isInit);
         address[5] memory b;
         AddressRegistryStorage memory a = AddressRegistryStorage(b,0,_initMaxNumListings);
