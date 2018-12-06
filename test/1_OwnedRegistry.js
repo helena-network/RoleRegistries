@@ -228,7 +228,7 @@ contract('OwnedRegistry', function (accounts) {
       await Registry.debug_forceUpdate()
 
       const expectedWhitelistedFromPeriod0 =
-        [ '0xaaaa13b40cd9fbd27d4be4b4a374729b0368e081',
+        [ TEST_ACCOUNT_1,
           '0x0000000000000000000000000000000000000000',
           '0x0000000000000000000000000000000000000000',
           '0x0000000000000000000000000000000000000000',
