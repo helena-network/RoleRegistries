@@ -194,7 +194,7 @@ contract GlobalStorage {
     
     ///// Aux
     function height() internal view returns (uint){
-        return TRL.height();
+        return period.height();
     }
 
     /***********
