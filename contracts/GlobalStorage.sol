@@ -1,7 +1,7 @@
 
 //import "github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "@frontier-token-research/trl-contracts-poc/contracts/TRLInterface.sol";
+import "@frontier-token-research/cron/contracts/IPeriod.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 pragma solidity 0.4.24;
