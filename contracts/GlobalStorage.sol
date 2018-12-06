@@ -20,7 +20,7 @@ contract GlobalStorage {
     uint256 public hardMaxNumListingsLimit;
     bool    public isInit = false;
 
-    TRLInterface TRL;
+    IPeriod period;
 
     struct AddressRegistryStorage {
         address[5] whiteListed;
