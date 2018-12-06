@@ -223,6 +223,19 @@ contract('OwnedRegistry', function (accounts) {
       assert.equal(await Registry.wasWhitelisted(TEST_ACCOUNT_1, startStage), true, 'Test account 1 incorrect for Epoch 0, should be true')
       assert.equal(await Registry.wasWhitelisted(TEST_ACCOUNT_2, startStage + 1), true, 'Test account 2 incorrect for Epoch 1, should be true')
       assert.equal(await Registry.wasWhitelisted(TEST_ACCOUNT_3, startStage + 1), true, 'Test account 3 incorrect for Epoch 1, should be true')
+
+      await Registry.next()
+      await Registry.debug_forceUpdate()
+
+      const expectedWhitelistedFromPeriod0 =
+        [ '0xaaaa13b40cd9fbd27d4be4b4a374729b0368e081',
+          '0x0000000000000000000000000000000000000000',
+          '0x0000000000000000000000000000000000000000',
+          '0x0000000000000000000000000000000000000000',
+          '0x0000000000000000000000000000000000000000' ]
+
+      const actualWhitelistedFromPeriod0 = await Registry.getWhitelistedFromEpoch(0)
+      assert.equal(JSON.stringify(actualWhitelistedFromPeriod0), JSON.stringify(expectedWhitelistedFromPeriod0))
     })
 
     it('Should revert when user is already whitlisted on current period', async () => {
