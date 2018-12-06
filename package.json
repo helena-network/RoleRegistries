@@ -18,6 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@frontier-token-research/trl-contracts-poc": "^3.6.0",
+    "@frontier-token-research/cron": "3.1.0",
     "openzeppelin-solidity": "2.0.0",
     "truffle": "^4.1.11",
     "truffle-hdwallet-provider": "0.0.5"

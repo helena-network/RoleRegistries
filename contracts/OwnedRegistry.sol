@@ -47,7 +47,6 @@ contract OwnedRegistry is Registry, Ownable {
     function setMaxNumListings(uint256 _maxNumListings) external {
         require(msg.sender == owner());
         require(_maxNumListings >= _getListingCounter());
-        //maxNumListings = _maxNumListings;
         _setMaxNumListings(_maxNumListings);
         emit _MaxListingsEdited(_maxNumListings);
     }
@@ -65,7 +64,7 @@ contract OwnedRegistry is Registry, Ownable {
     }
 
     function wasWhitelisted(address _accountChecked, uint256 _epoch) public view returns (bool whitelisted){
-        address[5] memory addressListFromEpoch = _getEpochFromArchive(_epoch).whiteListed;
+        address[20] memory addressListFromEpoch = _getEpochFromArchive(_epoch).whiteListed;
         uint256 userIndex = _findInArray(_accountChecked, addressListFromEpoch);
 
         if(userIndex == 101){

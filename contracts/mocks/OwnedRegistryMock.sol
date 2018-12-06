@@ -22,7 +22,7 @@ contract OwnedRegistryMock is OwnedRegistry {
 
     // Debug
 
-    function debug_getArchive(uint256 _index) public view returns (address[5]){
+    function debug_getArchive(uint256 _index) public view returns (address[20]){
         return _getEpochFromArchive(_index).whiteListed;
     }
 

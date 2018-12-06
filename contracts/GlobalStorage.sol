@@ -23,7 +23,7 @@ contract GlobalStorage {
     IPeriod period;
 
     struct AddressRegistryStorage {
-        address[5] whiteListed;
+        address[20] whiteListed;
         uint256 listingCounter;
         uint256 maxNumListings; // By default, only limited by EVM max word
     }
@@ -40,7 +40,7 @@ contract GlobalStorage {
 
    function init(uint256 _hardMaxNumListingsLimit, uint256 _initMaxNumListings, address _periodAddress) public onlyOnce() {
         require(!isInit);
-        address[5] memory b;
+        address[20] memory b;
         AddressRegistryStorage memory a = AddressRegistryStorage(b,0,_initMaxNumListings);
         strg[0] = a;
         strg[1] = a;
@@ -50,7 +50,7 @@ contract GlobalStorage {
     }
 
 
-    function _deleteAddress(address _target, address[5] _list) internal pure returns (address[5]){
+    function _deleteAddress(address _target, address[20] _list) internal pure returns (address[20]){
         uint256 len = _list.length;
         uint256 targetIndex = _findInArray(_target, _list);
         require(targetIndex<9, "Address does not exist");
@@ -59,7 +59,7 @@ contract GlobalStorage {
         return _list;
     }
 
-    function _findInArray(address _target, address[5] _list) internal pure returns (uint256){
+    function _findInArray(address _target, address[20] _list) internal pure returns (uint256){
         uint256 len = _list.length;
         
         for(uint i = 0; i<len; i++){
@@ -159,7 +159,7 @@ contract GlobalStorage {
         return strg[0];
     }
 
-    function getWhitelistedFromEpoch(uint256 _epoch) public view returns (address[5] elements) {
+    function getWhitelistedFromEpoch(uint256 _epoch) public view returns (address[20] elements) {
         return _getEpochFromArchive(_epoch).whiteListed;
 
     }
