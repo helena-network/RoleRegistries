@@ -17,7 +17,7 @@ let Registry
 
 contract('OwnedRegistry', function (accounts) {
   beforeEach(async () => {
-    Registry = await OwnedRegistryContract.new({from: ADMIN_ACCOUNT})
+    Registry = await OwnedRegistryContract.new([], {from: ADMIN_ACCOUNT})
     await Registry.init(5, 5, MOCK_TRL_ADDRESS)
   })
   describe('Whitelisting accounts', async () => {
@@ -28,6 +28,12 @@ contract('OwnedRegistry', function (accounts) {
       let isWhitelisted = await Registry.isWhitelisted.call(TEST_ACCOUNT_1)
       assert.strictEqual(true, isWhitelisted)
     })
+  })
+  it('Should whitelist several accounts in the mock constructor', async () => {
+    Registry = await OwnedRegistryContract.new([TEST_ACCOUNT_1, TEST_ACCOUNT_2, TEST_ACCOUNT_3], {from: ADMIN_ACCOUNT})
+    assert.equal(await Registry.isWhitelisted(TEST_ACCOUNT_1), true)
+    assert.equal(await Registry.isWhitelisted(TEST_ACCOUNT_2), true)
+    assert.equal(await Registry.isWhitelisted(TEST_ACCOUNT_3), true)
   })
   it('Should NOT whitelist an account if it is required by an account different than the owner', async () => {
     await assertRevert(Registry.whiteList(TEST_ACCOUNT_1, {from: NOT_ADMIN_ACCOUNT}))

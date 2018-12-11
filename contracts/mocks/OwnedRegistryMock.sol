@@ -12,6 +12,15 @@ contract OwnedRegistryMock is OwnedRegistry {
     
     ///// Aux
 
+    constructor(address[] _whiteListedAccounts)
+        OwnedRegistry()
+        public
+    {
+        for (uint i = 0; i < _whiteListedAccounts.length; i++){
+            whitelistCurrentPeriod(_whiteListedAccounts[i]);
+        }
+    }
+
     function height() internal view returns (uint){
         return counter;
     }
