@@ -1,7 +1,7 @@
 
 //import "github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-import "@frontier-token-research/cron/contracts/IPeriod.sol";
+import * as OLD_IPeriod from "@frontier-token-research/cron/contracts/IPeriod.sol";
 import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 pragma solidity 0.4.24;
@@ -20,7 +20,7 @@ contract GlobalStorage {
     uint256 public hardMaxNumListingsLimit;
     bool    public isInit = false;
 
-    IPeriod period;
+    OLD_IPeriod.IPeriod period;
 
     struct AddressRegistryStorage {
         address[20] whiteListed;
@@ -45,7 +45,7 @@ contract GlobalStorage {
         strg[0] = a;
         strg[1] = a;
         //_addToArchive(0,a);
-        period = IPeriod(_periodAddress);
+        period = OLD_IPeriod.IPeriod(_periodAddress);
         isInit = true;
     }
 
