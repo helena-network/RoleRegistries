@@ -1,8 +1,9 @@
-/* global artifacts contract beforeEach it assert web3 */
+/* global artifacts contract beforeEach it assert web3 describe */
 const { assertRevert } = require('./helpers/assertRevert')
 // var _ = require('underscore')
 
 const OwnedRegistryContract = artifacts.require('OwnedRegistryMock')
+const PeriodContract = artifacts.require('PeriodMock')
 const MAXNUMCANDIDATES = 5
 const ADMIN_ACCOUNT = web3.eth.accounts[0]
 const NOT_ADMIN_ACCOUNT = web3.eth.accounts[1]
@@ -14,23 +15,30 @@ const TEST_ACCOUNT_4 = web3.eth.accounts[5]
 const MOCK_TRL_ADDRESS = web3.eth.accounts[6]
 
 let Registry
+let PeriodInstance
+
+const INIT_MOCK = true
+const NOT_INIT_MOCK = false
+const NOT_USED_INT = 0
+const NOT_USED_ADDR = '0x0000000000000000000000000000000000000000'
 
 contract('OwnedRegistry', function (accounts) {
   beforeEach(async () => {
-    Registry = await OwnedRegistryContract.new([], {from: ADMIN_ACCOUNT})
-    await Registry.init(5, 5, MOCK_TRL_ADDRESS)
+    PeriodInstance = await PeriodContract.new()
+    Registry = await OwnedRegistryContract.new([], NOT_USED_ADDR, {from: ADMIN_ACCOUNT})
+    await Registry.init(5, 5, PeriodInstance.address)
   })
   describe('Whitelisting accounts', async () => {
-    it('Should whiteList an account if it is required by the owner', async () => {
-      await Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT})
+    // it('Should whiteList an account if it is required by the owner', async () => {
+    //   await Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT})
 
-      await Registry.next()
-      let isWhitelisted = await Registry.isWhitelisted.call(TEST_ACCOUNT_1)
-      assert.strictEqual(true, isWhitelisted)
-    })
+    //   await PeriodInstance.next()
+    //   let isWhitelisted = await Registry.isWhitelisted.call(TEST_ACCOUNT_1)
+    //   assert.strictEqual(true, isWhitelisted)
+    // })
   })
   it('Should whitelist several accounts in the mock constructor', async () => {
-    Registry = await OwnedRegistryContract.new([TEST_ACCOUNT_1, TEST_ACCOUNT_2, TEST_ACCOUNT_3], {from: ADMIN_ACCOUNT})
+    Registry = await OwnedRegistryContract.new([TEST_ACCOUNT_1, TEST_ACCOUNT_2, TEST_ACCOUNT_3], PeriodInstance.address, {from: ADMIN_ACCOUNT})
     assert.equal(await Registry.isWhitelisted(TEST_ACCOUNT_1), true)
     assert.equal(await Registry.isWhitelisted(TEST_ACCOUNT_2), true)
     assert.equal(await Registry.isWhitelisted(TEST_ACCOUNT_3), true)
@@ -41,7 +49,7 @@ contract('OwnedRegistry', function (accounts) {
   it('Should increase the registry index after whitelisting an account ', async () => {
     let initialIndex = await Registry.listingCounter()
     await Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT})
-    await Registry.next()
+    await PeriodInstance.next()
     let updatedNumberOfListings = await Registry.listingCounter()
     assert.equal(updatedNumberOfListings.toNumber(), initialIndex.toNumber() + 1)
   })
@@ -52,7 +60,7 @@ contract('OwnedRegistry', function (accounts) {
       await Registry.whiteList(TEST_ACCOUNT_1 + i, {from: ADMIN_ACCOUNT})
       i++
     }
-    await Registry.next()
+    await PeriodInstance.next()
     let updatedNumberOfListings = await Registry.listingCounter()
     assert.equal(updatedNumberOfListings.toNumber(), initialNumberOfListings.toNumber() + MAXNUMCANDIDATES)
   })
@@ -80,7 +88,7 @@ contract('OwnedRegistry', function (accounts) {
     })
     it('Should change the maximum number of listings if the listingCounter is less than the expected value', async () => {
       await Registry.setMaxNumListings(MAXNUMCANDIDATES)
-      await Registry.next()
+      await PeriodInstance.next()
       const newMaxNumListings = await Registry.maxNumListings()
       assert.strictEqual(MAXNUMCANDIDATES, newMaxNumListings.toNumber())
     })
@@ -90,11 +98,11 @@ contract('OwnedRegistry', function (accounts) {
         await Registry.whiteList(TEST_ACCOUNT_1 + i, {from: ADMIN_ACCOUNT})
         i++
       }
-      await Registry.next()
+      await PeriodInstance.next()
       const updatedNumberOfListings = await Registry.listingCounter()
       assert.strictEqual(MAXNUMCANDIDATES, updatedNumberOfListings.toNumber())
       await Registry.setMaxNumListings(MAXNUMCANDIDATES)
-      await Registry.next()
+      await PeriodInstance.next()
       const newMaxNumListings = await Registry.maxNumListings()
       assert.strictEqual(MAXNUMCANDIDATES, newMaxNumListings.toNumber())
       assertRevert(Registry.setMaxNumListings(MAXNUMCANDIDATES - 1))
@@ -105,7 +113,7 @@ contract('OwnedRegistry', function (accounts) {
     it('Should remove a candidate if it is required by the owner', async () => {
       await Registry.whiteList(TEST_ACCOUNT_1)
       await Registry.remove(TEST_ACCOUNT_1)
-      await Registry.next()
+      await PeriodInstance.next()
       let isInTheList = await Registry.isWhitelisted.call(TEST_ACCOUNT_1)
       assert.strictEqual(false, isInTheList)
     })
@@ -116,7 +124,7 @@ contract('OwnedRegistry', function (accounts) {
       let initialNumberOfListings = await Registry.listingCounter()
       await Registry.whiteList(TEST_ACCOUNT_1)
       await Registry.remove(TEST_ACCOUNT_1)
-      await Registry.next()
+      await PeriodInstance.next()
       let updatedNumberOfListings = await Registry.listingCounter()
       assert.equal(initialNumberOfListings.toNumber(), updatedNumberOfListings.toNumber())
     })
@@ -132,16 +140,16 @@ contract('OwnedRegistry', function (accounts) {
       // should still be zero, because we havent moved to the next period
       assert.equal(await Registry.listingCounter(), 0)
       // moving period
-      await Registry.next()
+      await PeriodInstance.next()
       // Should be 2, because we've moved period and the counter should have been updated
       assert.equal(await Registry.listingCounter(), 2)
       // counter should continue droping as we remove more accounts
       await Registry.remove(TEST_ACCOUNT_1)
-      await Registry.next()
+      await PeriodInstance.next()
       assert.equal(await Registry.listingCounter(), 1)
 
       await Registry.remove(TEST_ACCOUNT_2)
-      await Registry.next()
+      await PeriodInstance.next()
       assert.equal(await Registry.listingCounter(), 0)
 
       // Trying to remove a non existing account should fail
@@ -153,7 +161,7 @@ contract('OwnedRegistry', function (accounts) {
 
       // these are the expected accounts after the movements carried out before
       const expectedAccounts = [[TEST_ACCOUNT_1, TEST_ACCOUNT_2], [TEST_ACCOUNT_2], []]
-      await Registry.next()
+      await PeriodInstance.next()
 
       const actualAccounts = []
       // the actual accounts are the return value from the function which allows to read the values
@@ -191,10 +199,10 @@ contract('OwnedRegistry', function (accounts) {
       // Should revert because it was already added to next epoch in last transaction
       await assertRevert(Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT}))
 
-      await Registry.next()
+      await PeriodInstance.next()
       await Registry.whitelistCurrentPeriod(TEST_ACCOUNT_2)
 
-      await Registry.next()
+      await PeriodInstance.next()
       await Registry.debug_forceUpdate()
 
       // let r0 = await Registry.debug_getArchiveAndPeriod(1)
@@ -217,12 +225,12 @@ contract('OwnedRegistry', function (accounts) {
       // should be 1 before updating
       assert.equal(await Registry.listingCounter(), 1)
 
-      await Registry.next()
+      await PeriodInstance.next()
       // Should be 3 after updating
       assert.equal(await Registry.listingCounter(), 3)
 
       await Registry.debug_forceUpdate()
-      await Registry.next()
+      await PeriodInstance.next()
       await Registry.debug_forceUpdate()
 
       // debug
@@ -230,7 +238,7 @@ contract('OwnedRegistry', function (accounts) {
       assert.equal(await Registry.wasWhitelisted(TEST_ACCOUNT_2, startStage + 1), true, 'Test account 2 incorrect for Epoch 1, should be true')
       assert.equal(await Registry.wasWhitelisted(TEST_ACCOUNT_3, startStage + 1), true, 'Test account 3 incorrect for Epoch 1, should be true')
 
-      await Registry.next()
+      await PeriodInstance.next()
       await Registry.debug_forceUpdate()
 
       const expectedWhitelistedFromPeriod0 =
@@ -263,7 +271,7 @@ contract('OwnedRegistry', function (accounts) {
       // initially there should be 0 listings
       assert.equal(await Registry.listingCounter(), 0)
       await Registry.whiteList(TEST_ACCOUNT_1, {from: ADMIN_ACCOUNT})
-      await Registry.next()
+      await PeriodInstance.next()
       assert.equal(await Registry.listingCounter(), 1)
       await assertRevert(Registry.whitelistCurrentPeriod(TEST_ACCOUNT_1))
     })
@@ -290,14 +298,14 @@ contract('OwnedRegistry', function (accounts) {
       assert.equal(await Registry.isWhitelisted(TEST_ACCOUNT_2), true)
       assert.equal(await Registry.listingCounter(), 2)
 
-      await Registry.next()
+      await PeriodInstance.next()
 
       await Registry.blacklistCurrentPeriod(TEST_ACCOUNT_2)
       assert.equal(await Registry.listingCounter(), 1)
       assert.equal(await Registry.isWhitelisted(TEST_ACCOUNT_2), false)
 
       await Registry.debug_forceUpdate()
-      await Registry.next()
+      await PeriodInstance.next()
       await Registry.debug_forceUpdate()
 
       assert.equal(await Registry.wasWhitelisted(TEST_ACCOUNT_1, startStage), true, 'Test account 1 incorrect for Epoch 0, should be true')

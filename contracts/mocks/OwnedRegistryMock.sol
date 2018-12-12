@@ -1,6 +1,7 @@
 
 //import "github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+//import * as LoadPeriodMock from "@frontier-token-research/cron/contracts/mocks/PeriodMock.sol";
 import "../OwnedRegistry.sol";
 
 pragma solidity 0.4.24;
@@ -8,26 +9,31 @@ pragma solidity 0.4.24;
 contract OwnedRegistryMock is OwnedRegistry {
     using SafeMath for uint256;
     
-    uint256 public counter;
+    //uint256 public counter;
     
     ///// Aux
 
-    constructor(address[] _whiteListedAccounts)
+    constructor(address[] _whiteListedAccounts , address _periodAddress)
         OwnedRegistry()
         public
     {
+        if(_whiteListedAccounts.length > 0){
+            uint256 _hardMaxNumListingsLimit = 5;
+            uint256 _initMaxNumListings = 5;
+            init(_hardMaxNumListingsLimit, _initMaxNumListings,  _periodAddress);    
+        }
         for (uint i = 0; i < _whiteListedAccounts.length; i++){
             whitelistCurrentPeriod(_whiteListedAccounts[i]);
         }
     }
 
-    function height() internal view returns (uint){
-        return counter;
-    }
+    // function height() internal view returns (uint){
+    //     return counter;
+    // }
 
-    function next() public {
-        counter ++;
-    }
+    // function next() public {
+    //     counter=counter;
+    // }
 
     // Debug
 
