@@ -268,10 +268,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        1461,
-                        1462
+                        1526,
+                        1527
                       ],
-                      "referencedDeclaration": 1461,
+                      "referencedDeclaration": 1526,
                       "src": "398:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -389,7 +389,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1458,
+                          "referencedDeclaration": 1523,
                           "src": "519:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -459,7 +459,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1458,
+                          "referencedDeclaration": 1523,
                           "src": "562:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -508,7 +508,7 @@
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1419,
+                      "referencedDeclaration": 1484,
                       "src": "540:21:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1123,10 +1123,10 @@
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        1461,
-                        1462
+                        1526,
+                        1527
                       ],
-                      "referencedDeclaration": 1461,
+                      "referencedDeclaration": 1526,
                       "src": "398:7:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
@@ -1244,7 +1244,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1458,
+                          "referencedDeclaration": 1523,
                           "src": "519:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1314,7 +1314,7 @@
                           "name": "msg",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 1458,
+                          "referencedDeclaration": 1523,
                           "src": "562:3:3",
                           "typeDescriptions": {
                             "typeIdentifier": "t_magic_message",
@@ -1363,7 +1363,7 @@
                       "lValueRequested": false,
                       "memberName": "transferOwnership",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 1419,
+                      "referencedDeclaration": 1484,
                       "src": "540:21:3",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_external_nonpayable$_t_address_$returns$__$",
@@ -1793,5 +1793,5 @@
   },
   "networks": {},
   "schemaVersion": "2.0.1",
-  "updatedAt": "2018-12-12T12:30:05.908Z"
+  "updatedAt": "2018-12-31T00:25:25.063Z"
 }

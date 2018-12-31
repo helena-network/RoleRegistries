@@ -1,7 +1,7 @@
 
 //import "github.com/OpenZeppelin/zeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
-//import * as LoadPeriodMock from "@frontier-token-research/cron/contracts/mocks/PeriodMock.sol";
+import * as LoadPeriodMock from "@frontier-token-research/cron/contracts/mocks/PeriodMock.sol";
 import "../OwnedRegistry.sol";
 
 pragma solidity 0.4.24;
