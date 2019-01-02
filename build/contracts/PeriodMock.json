@@ -1,0 +1,1004 @@
+{
+  "contractName": "PeriodMock",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getLength",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "heightOf",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "height",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "next",
+      "outputs": [],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x60806040526000805534801561001457600080fd5b50610170806100246000396000f300608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630ef26743146100675780634c8fe52614610092578063be1c766b146100a9578063c23c39d3146100d4575b600080fd5b34801561007357600080fd5b5061007c610115565b6040518082815260200191505060405180910390f35b34801561009e57600080fd5b506100a761011e565b005b3480156100b557600080fd5b506100be610131565b6040518082815260200191505060405180910390f35b3480156100e057600080fd5b506100ff6004803603810190808035906020019092919050505061013a565b6040518082815260200191505060405180910390f35b60008054905090565b6000808154809291906001019190505550565b60006001905090565b60008090509190505600a165627a7a72305820cdb009c9e654add4a2868a9c59c74678f5d98e30b3b184ad4eb577781d096cb20029",
+  "deployedBytecode": "0x608060405260043610610062576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff1680630ef26743146100675780634c8fe52614610092578063be1c766b146100a9578063c23c39d3146100d4575b600080fd5b34801561007357600080fd5b5061007c610115565b6040518082815260200191505060405180910390f35b34801561009e57600080fd5b506100a761011e565b005b3480156100b557600080fd5b506100be610131565b6040518082815260200191505060405180910390f35b3480156100e057600080fd5b506100ff6004803603810190808035906020019092919050505061013a565b6040518082815260200191505060405180910390f35b60008054905090565b6000808154809291906001019190505550565b60006001905090565b60008090509190505600a165627a7a72305820cdb009c9e654add4a2868a9c59c74678f5d98e30b3b184ad4eb577781d096cb20029",
+  "sourceMap": "52:391:7:-;;;118:1;91:28;;52:391;8:9:-1;5:2;;;30:1;27;20:12;5:2;52:391:7;;;;;;;",
+  "deployedSourceMap": "52:391:7:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;305:79;;8:9:-1;5:2;;;30:1;27;20:12;5:2;305:79:7;;;;;;;;;;;;;;;;;;;;;;;390:51;;8:9:-1;5:2;;;30:1;27;20:12;5:2;390:51:7;;;;;;127:75;;8:9:-1;5:2;;;30:1;27;20:12;5:2;127:75:7;;;;;;;;;;;;;;;;;;;;;;;208:92;;8:9:-1;5:2;;;30:1;27;20:12;5:2;208:92:7;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;305:79;344:7;369:8;;362:15;;305:79;:::o;390:51::-;423:8;;:11;;;;;;;;;;;;;390:51::o;127:75::-;169:7;194:1;187:8;;127:75;:::o;208:92::-;267:7;292:1;285:8;;208:92;;;:::o",
+  "source": "\npragma solidity 0.4.24;\nimport \"../IPeriod.sol\";\n\n\ncontract PeriodMock is IPeriod { \n\n    uint256 private _counter = 0; \n\n    function getLength() public view returns (uint256){\n        return 1;\n    }\n\n    function heightOf(uint256 _timestamp) public view returns (uint256){\n        return 0;\n    }\n    function height() public view returns (uint256){\n        return _counter;\n    }\n\n    function next()  public{\n        _counter ++;\n    }\n}",
+  "sourcePath": "@frontier-token-research/cron/contracts/mocks/PeriodMock.sol",
+  "ast": {
+    "absolutePath": "@frontier-token-research/cron/contracts/mocks/PeriodMock.sol",
+    "exportedSymbols": {
+      "PeriodMock": [
+        1271
+      ]
+    },
+    "id": 1272,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1231,
+        "literals": [
+          "solidity",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "1:23:7"
+      },
+      {
+        "absolutePath": "@frontier-token-research/cron/contracts/IPeriod.sol",
+        "file": "../IPeriod.sol",
+        "id": 1232,
+        "nodeType": "ImportDirective",
+        "scope": 1272,
+        "sourceUnit": 1230,
+        "src": "25:24:7",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1233,
+              "name": "IPeriod",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1229,
+              "src": "75:7:7",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IPeriod_$1229",
+                "typeString": "contract IPeriod"
+              }
+            },
+            "id": 1234,
+            "nodeType": "InheritanceSpecifier",
+            "src": "75:7:7"
+          }
+        ],
+        "contractDependencies": [
+          1229
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1271,
+        "linearizedBaseContracts": [
+          1271,
+          1229
+        ],
+        "name": "PeriodMock",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 1237,
+            "name": "_counter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1271,
+            "src": "91:28:7",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1235,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "91:7:7",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1236,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "118:1:7",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 1244,
+              "nodeType": "Block",
+              "src": "177:25:7",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "31",
+                    "id": 1242,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "194:1:7",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_1_by_1",
+                      "typeString": "int_const 1"
+                    },
+                    "value": "1"
+                  },
+                  "functionReturnParameters": 1241,
+                  "id": 1243,
+                  "nodeType": "Return",
+                  "src": "187:8:7"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1245,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getLength",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1238,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "145:2:7"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1241,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1240,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1245,
+                  "src": "169:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1239,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "169:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "168:9:7"
+            },
+            "scope": 1271,
+            "src": "127:75:7",
+            "stateMutability": "view",
+            "superFunction": 1216,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1254,
+              "nodeType": "Block",
+              "src": "275:25:7",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "30",
+                    "id": 1252,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "292:1:7",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_0_by_1",
+                      "typeString": "int_const 0"
+                    },
+                    "value": "0"
+                  },
+                  "functionReturnParameters": 1251,
+                  "id": 1253,
+                  "nodeType": "Return",
+                  "src": "285:8:7"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1255,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "heightOf",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1248,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1247,
+                  "name": "_timestamp",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1255,
+                  "src": "226:18:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1246,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "226:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "225:20:7"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1251,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1250,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1255,
+                  "src": "267:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1249,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "267:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "266:9:7"
+            },
+            "scope": 1271,
+            "src": "208:92:7",
+            "stateMutability": "view",
+            "superFunction": 1223,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1262,
+              "nodeType": "Block",
+              "src": "352:32:7",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1260,
+                    "name": "_counter",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1237,
+                    "src": "369:8:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1259,
+                  "id": 1261,
+                  "nodeType": "Return",
+                  "src": "362:15:7"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1263,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "height",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1256,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "320:2:7"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1259,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1258,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1263,
+                  "src": "344:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1257,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "344:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "343:9:7"
+            },
+            "scope": 1271,
+            "src": "305:79:7",
+            "stateMutability": "view",
+            "superFunction": 1228,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1269,
+              "nodeType": "Block",
+              "src": "413:28:7",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1267,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "UnaryOperation",
+                    "operator": "++",
+                    "prefix": false,
+                    "src": "423:11:7",
+                    "subExpression": {
+                      "argumentTypes": null,
+                      "id": 1266,
+                      "name": "_counter",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1237,
+                      "src": "423:8:7",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1268,
+                  "nodeType": "ExpressionStatement",
+                  "src": "423:11:7"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1270,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "next",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1264,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "403:2:7"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1265,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "413:0:7"
+            },
+            "scope": 1271,
+            "src": "390:51:7",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1272,
+        "src": "52:391:7"
+      }
+    ],
+    "src": "1:442:7"
+  },
+  "legacyAST": {
+    "absolutePath": "@frontier-token-research/cron/contracts/mocks/PeriodMock.sol",
+    "exportedSymbols": {
+      "PeriodMock": [
+        1271
+      ]
+    },
+    "id": 1272,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 1231,
+        "literals": [
+          "solidity",
+          "0.4",
+          ".24"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "1:23:7"
+      },
+      {
+        "absolutePath": "@frontier-token-research/cron/contracts/IPeriod.sol",
+        "file": "../IPeriod.sol",
+        "id": 1232,
+        "nodeType": "ImportDirective",
+        "scope": 1272,
+        "sourceUnit": 1230,
+        "src": "25:24:7",
+        "symbolAliases": [],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 1233,
+              "name": "IPeriod",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 1229,
+              "src": "75:7:7",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_IPeriod_$1229",
+                "typeString": "contract IPeriod"
+              }
+            },
+            "id": 1234,
+            "nodeType": "InheritanceSpecifier",
+            "src": "75:7:7"
+          }
+        ],
+        "contractDependencies": [
+          1229
+        ],
+        "contractKind": "contract",
+        "documentation": null,
+        "fullyImplemented": true,
+        "id": 1271,
+        "linearizedBaseContracts": [
+          1271,
+          1229
+        ],
+        "name": "PeriodMock",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "constant": false,
+            "id": 1237,
+            "name": "_counter",
+            "nodeType": "VariableDeclaration",
+            "scope": 1271,
+            "src": "91:28:7",
+            "stateVariable": true,
+            "storageLocation": "default",
+            "typeDescriptions": {
+              "typeIdentifier": "t_uint256",
+              "typeString": "uint256"
+            },
+            "typeName": {
+              "id": 1235,
+              "name": "uint256",
+              "nodeType": "ElementaryTypeName",
+              "src": "91:7:7",
+              "typeDescriptions": {
+                "typeIdentifier": "t_uint256",
+                "typeString": "uint256"
+              }
+            },
+            "value": {
+              "argumentTypes": null,
+              "hexValue": "30",
+              "id": 1236,
+              "isConstant": false,
+              "isLValue": false,
+              "isPure": true,
+              "kind": "number",
+              "lValueRequested": false,
+              "nodeType": "Literal",
+              "src": "118:1:7",
+              "subdenomination": null,
+              "typeDescriptions": {
+                "typeIdentifier": "t_rational_0_by_1",
+                "typeString": "int_const 0"
+              },
+              "value": "0"
+            },
+            "visibility": "private"
+          },
+          {
+            "body": {
+              "id": 1244,
+              "nodeType": "Block",
+              "src": "177:25:7",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "31",
+                    "id": 1242,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "194:1:7",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_1_by_1",
+                      "typeString": "int_const 1"
+                    },
+                    "value": "1"
+                  },
+                  "functionReturnParameters": 1241,
+                  "id": 1243,
+                  "nodeType": "Return",
+                  "src": "187:8:7"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1245,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "getLength",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1238,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "145:2:7"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1241,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1240,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1245,
+                  "src": "169:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1239,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "169:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "168:9:7"
+            },
+            "scope": 1271,
+            "src": "127:75:7",
+            "stateMutability": "view",
+            "superFunction": 1216,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1254,
+              "nodeType": "Block",
+              "src": "275:25:7",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "hexValue": "30",
+                    "id": 1252,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": true,
+                    "kind": "number",
+                    "lValueRequested": false,
+                    "nodeType": "Literal",
+                    "src": "292:1:7",
+                    "subdenomination": null,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_rational_0_by_1",
+                      "typeString": "int_const 0"
+                    },
+                    "value": "0"
+                  },
+                  "functionReturnParameters": 1251,
+                  "id": 1253,
+                  "nodeType": "Return",
+                  "src": "285:8:7"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1255,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "heightOf",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1248,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1247,
+                  "name": "_timestamp",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1255,
+                  "src": "226:18:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1246,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "226:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "225:20:7"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1251,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1250,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1255,
+                  "src": "267:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1249,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "267:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "266:9:7"
+            },
+            "scope": 1271,
+            "src": "208:92:7",
+            "stateMutability": "view",
+            "superFunction": 1223,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1262,
+              "nodeType": "Block",
+              "src": "352:32:7",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1260,
+                    "name": "_counter",
+                    "nodeType": "Identifier",
+                    "overloadedDeclarations": [],
+                    "referencedDeclaration": 1237,
+                    "src": "369:8:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "functionReturnParameters": 1259,
+                  "id": 1261,
+                  "nodeType": "Return",
+                  "src": "362:15:7"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1263,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "height",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1256,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "320:2:7"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1259,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1258,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1263,
+                  "src": "344:7:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 1257,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "344:7:7",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "343:9:7"
+            },
+            "scope": 1271,
+            "src": "305:79:7",
+            "stateMutability": "view",
+            "superFunction": 1228,
+            "visibility": "public"
+          },
+          {
+            "body": {
+              "id": 1269,
+              "nodeType": "Block",
+              "src": "413:28:7",
+              "statements": [
+                {
+                  "expression": {
+                    "argumentTypes": null,
+                    "id": 1267,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "lValueRequested": false,
+                    "nodeType": "UnaryOperation",
+                    "operator": "++",
+                    "prefix": false,
+                    "src": "423:11:7",
+                    "subExpression": {
+                      "argumentTypes": null,
+                      "id": 1266,
+                      "name": "_counter",
+                      "nodeType": "Identifier",
+                      "overloadedDeclarations": [],
+                      "referencedDeclaration": 1237,
+                      "src": "423:8:7",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_uint256",
+                        "typeString": "uint256"
+                      }
+                    },
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "id": 1268,
+                  "nodeType": "ExpressionStatement",
+                  "src": "423:11:7"
+                }
+              ]
+            },
+            "documentation": null,
+            "id": 1270,
+            "implemented": true,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "next",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 1264,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "403:2:7"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 1265,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "413:0:7"
+            },
+            "scope": 1271,
+            "src": "390:51:7",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          }
+        ],
+        "scope": 1272,
+        "src": "52:391:7"
+      }
+    ],
+    "src": "1:442:7"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "2.0.1",
+  "updatedAt": "2018-12-31T00:25:25.064Z"
+}
